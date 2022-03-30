@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header#header-projeto{
+    width: 100%;
+    height: 70px;
+
+    background: #2C2C2C;
+    box-shadow: 0px 3px 6px rgba(180, 180, 180, 0.15);
+
+    padding-left: 80px; 
+    display: flex;
+    align-items: center;
+}
+
+
+header#header-projeto img{
+    width: 130px;
+    height: 57px;
+}
+
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+div#dados-input{
+    width: 442px;
+    height: 89vh;
+
+    background: #4D4A4A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+div#dados-input label{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+    align-self: flex-start;
+    margin-left: 80px;
+}
+
+div#dados-input input{
+    margin-top: 10px;
+    width: 289px;
+    height: 53px;
+    
+    background: #FFFFFF;
+    border-radius: 10px;
+
+    outline: none;
+    border: none;
+    padding-left: 10px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #000000;
+
+    
+}
+
+div#dados-input input::placeholder {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    
+}
+
+
+div#dados-input button{
+    margin-top: 20px;
+    width: 140px;
+    height: 40px;
+
+    background: #3C7E95;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 36px;
+
+    color: #FFFFFF;
+}
