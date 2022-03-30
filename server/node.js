@@ -7,11 +7,22 @@ var contas = require('./contas.json');
 
 
 function getMensagens(route,nome){
+    var isCadastrado = false;
     console.log(route, nome);
 
-    if(route == 'mensagens'){
+    contas.forEach( x => {
+        if(x.nome == nome){
+            isCadastrado = true;
+        }
+    })
+
+    /*if( isCadastrado == false){
+        return "Usuário não cadastrado"; 
+    }*/
+
+    if(route == 'mensagens'){//retorna todas as mensagens 
         return mensagens;
-    }else if(route == 'enviadas'){
+    }else if(route == 'enviadas'){//retorna as mensagens enviadas para uma pessoa
         var lista = [];
         mensagens.forEach( x => {
             console.log(x);
@@ -21,7 +32,7 @@ function getMensagens(route,nome){
             }
         })
         return lista;
-    }else if( route == 'recebidas'){
+    }else if( route == 'recebidas'){ //retorna as mensagens recebidas por uma pessoa
         var lista = [];
         mensagens.forEach( x => {
             console.log(x);
@@ -32,11 +43,9 @@ function getMensagens(route,nome){
         })
         return lista;
     }else{
-        return "nada foi encontrado";
+        return "Nada encontrado"; //caso informe uma rota inválida
     }
-    
-    
-    
+
 }
 
 const handler  = (request, response) =>{
@@ -56,8 +65,13 @@ const handler  = (request, response) =>{
 
     if(method == 'GET'){
         var result = getMensagens(route,nome);
+        if (result == "Nada encontrado"){
+            response.writeHead(400, DEFAULT_HEADER);
+        }
+
         var resposta = JSON.stringify(result);
         response.end(resposta);
+
     }else if (method == 'POST'){
         
     }else{
