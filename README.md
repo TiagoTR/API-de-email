@@ -1,6 +1,6 @@
 # API-de-email
     O projeto utiliza javascript para a API rodando com "nodeJS".
-    A interface(cliente) foi feita utilizadno HTML,CSS E javascript puros.
+    A interface(cliente) foi feita utilizadno HTML,CSS e javascript puros.
 
 # Executar o projeto
     É preciso ter o nodeJS instalado pois ele irá executar a API.
