@@ -179,7 +179,7 @@ function showResultsEnviados (resultado) {
         div.setAttribute("onClick",`exibirMensagemUnicaEnviados(${resultado[i].id})`);
         
         let h2 = document.createElement("h2");
-        h2.innerText = resultado[i].remetente;
+        h2.innerText = resultado[i].destinatario;
 
         let span = document.createElement("span");
         span.innerText = resultado[i].assunto;
@@ -329,6 +329,7 @@ async function enviardados(){
 
     
     console.log(mensagem);
+    fecharcriarMensagem();
 }
 
 
@@ -409,6 +410,7 @@ async function encaminharMensagem(id){
 
     
     console.log(mensagem);
+    fecharcriarMensagem();
 }
 
 async function criarRespodeMensagem(id){
@@ -483,4 +485,5 @@ async function responderMensagem(id){
 
     
     console.log(mensagem);
+    fecharcriarMensagem();
 }
