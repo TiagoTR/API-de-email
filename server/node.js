@@ -110,6 +110,7 @@ const handler  = (request, response) =>{
 
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', '*');
+    response.setHeader('Access-Control-Allow-Headers', '*');
 
     const {url, method} = request ;
     console.log({

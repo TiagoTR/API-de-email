@@ -192,18 +192,7 @@ function criarMensagem(){
             </div>
             <textarea type="text" id="campo2-f1" placeholder="Sua mensagem aqui"></textarea>
             <div class="botoes-f1">
-                <button 
-                    id="cancelar-f1"
-                    onclick="fecharcriarMensagem()"
-                >
-                Cancelar
-                </button>
-                <button 
-                    id="submit-button"
-                    onClick="enviardados()"
-                >
-                    Enviar
-                </button>
+               
             </div>
         </form>
         <button 
@@ -213,6 +202,7 @@ function criarMensagem(){
         Cancelar
         </button>
         <button 
+            id="enviar-f1"
             onClick="enviardados()"
         >
             Enviar
@@ -259,8 +249,14 @@ async function enviardados(){
         corpo
     }
 
+    axios.post(`http://localhost:3333/enviar/${remetente}/${destinatario}`,{
+        "id": id,
+	    "remetente": remetente,
+	    "destinatario": destinatario,
+	    "assunto": assunto,
+	    "corpo": corpo
+    });
+
     
-
     console.log(mensagem);
-
 }
