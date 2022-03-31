@@ -52,7 +52,6 @@ function getMensagens(route,nome){
 function AdicionarNosArquivos(body){
     mensagens.push(body);
     fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{});
-    
 }
 
 async function collectRequestData(request, response,remetente,destinatario, cont) {
@@ -92,7 +91,28 @@ function postMensagens(req,res,route,remetente,destinatario){
         res.end("destinaratio ou remetente nao existe");
     }
 
-  }
+}
+
+function deleteMensagens(route,id, response){
+    var cont = 0;
+    var indice = 0;
+    mensagens.forEach( x => {
+        if(x.id == id){
+            indice = cont;
+        }
+        cont = cont + 1;
+    })
+
+    console.log(indice);
+
+    mensagens = mensagens.filter((x)=>{
+        return x.id != id
+    })
+
+    console.log(mensagens);
+    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{});
+    response.end("deletado");
+}
 
 const handler  = (request, response) =>{
     const {url, method} = request ;
@@ -120,6 +140,8 @@ const handler  = (request, response) =>{
 
     }else if (method == 'POST'){
         postMensagens(request,response,route,remetente,destinatario);
+    }else if (method == 'DELETE'){
+        deleteMensagens(route,remetente, response);
     }else{
         response.end(" nenhuma solicitacao");
     }
