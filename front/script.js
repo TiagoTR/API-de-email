@@ -39,7 +39,7 @@ function noShowLogin (nome) {
         <header id="header-projeto">
             <img src="./images/icons/logo.svg" alt="icon"/>
             <h2>${nome}</h2>
-            <button onclick="criarMensagem()">nova mensagem</button>
+            <button onclick="criarMensagem()" id="button-nova-mensagem">nova mensagem</button>
         </header>
 
         <div id="mensagens">
@@ -263,18 +263,20 @@ function criarMensagem(){
                
             </div>
         </form>
-        <button 
-            id="cancelar-f1"
-            onclick="fecharcriarMensagem()"
-        >
-        Cancelar
-        </button>
-        <button 
-            id="enviar-f1"
-            onClick="enviardados()"
-        >
-            Enviar
-        </button>
+        <div id="bottoes-modal">
+            <button 
+                id="cancelar-f1"
+                onclick="fecharcriarMensagem()"
+            >
+            Cancelar
+            </button>
+            <button 
+                id="enviar-f1"
+                onClick="enviardados()"
+            >
+                Enviar
+            </button>
+        </div>
     `;
 
     document.getElementById("body").appendChild(div);
@@ -345,18 +347,20 @@ async function criarEncaminhaMensagem(id){
                 <input type="text" id="campo3-f1" placeholder="destinatario"></input>
             </div>
         </form>
-        <button 
-            id="cancelar-f1"
-            onclick="fecharcriarMensagem()"
-        >
-        Cancelar
-        </button>
-        <button 
-            id="enviar-f1"
-            onClick="encaminharMensagem(${id})"
-        >
-            Enviar
-        </button>
+        <div id="bottoes-modal">
+            <button 
+                id="cancelar-f1"
+                onclick="fecharcriarMensagem()"
+            >
+            Cancelar
+            </button>
+            <button 
+                id="enviar-f1"
+                onClick="encaminharMensagem(${id})"
+            >
+                Enviar
+            </button>
+        </div>
     `;
 
     document.getElementById("body").appendChild(div);
@@ -419,18 +423,20 @@ async function criarRespodeMensagem(id){
         <form id="formulario-1" ">
             <textarea type="text" id="campo2-f1" placeholder="Sua mensagem aqui"></textarea>
         </form>
-        <button 
-            id="cancelar-f1"
-            onclick="fecharcriarMensagem()"
-        >
-        Cancelar
-        </button>
-        <button 
-            id="enviar-f1"
-            onClick="responderMensagem(${id})"
-        >
-            Enviar
-        </button>
+        <div id="bottoes-modal">
+            <button 
+                id="cancelar-f1"
+                onclick="fecharcriarMensagem()"
+            >
+            Cancelar
+            </button>
+            <button 
+                id="enviar-f1"
+                onClick="responderMensagem(${id})"
+            >
+                Enviar
+            </button>
+        </div>
     `;
 
     document.getElementById("body").appendChild(div);

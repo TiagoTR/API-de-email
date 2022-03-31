@@ -470,3 +470,74 @@ div#modal-nova-mensagem #formulario-1 .botoes-f1 button{
 div#modal-nova-mensagem #formulario-1 .botoes-f1 button#cancelar-f1{
     background: #D62D74;
 }
+
+button#cancelar-f1{
+    width: 100px;
+    height: 30px;
+
+    background: #D62D74;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 24px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+button#enviar-f1{
+    width: 100px;
+    height: 30px;
+
+    background: #2D52D6;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 24px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+div#bottoes-modal{
+    margin-top: 15px;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+button#button-nova-mensagem{
+    margin-left: 80px;
+    width: 150px;
+    height: 30px;
+
+    background: #D62D74;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 24px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
