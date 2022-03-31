@@ -4,6 +4,7 @@ const DEFAULT_HEADER = { 'Content-Type': 'application/json'}
 const fs = require('fs');
 var mensagens = require('./mensagens.json');
 var contas = require('./contas.json');
+const { parse } = require('querystring');
 
 
 function getMensagens(route,nome){
@@ -48,12 +49,48 @@ function getMensagens(route,nome){
 
 }
 
+function AdicionarNosArquivos(body){
+    mensagens.push(body);
+    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{});
+    
+}
+
+async function collectRequestData(request, response,remetente,destinatario, cont) {
+
+    let body = '';
+
+    var contString = cont.toString();
+    
+    request.on('data', chunk => {
+        body += chunk;
+    });
+
+
+    request.on('end', () => {
+        AdicionarNosArquivos(JSON.parse(body));
+        response.end(body); 
+    });
+
+}
+
+
+function postMensagens(req,res,remetente,destinatario){
+
+    var cont = 0;
+    mensagens.forEach( x => {
+        cont = cont + 1;
+    });
+   
+    collectRequestData(req, res, remetente, destinatario, cont+1);
+
+  }
+
 const handler  = (request, response) =>{
     const {url, method} = request ;
     console.log({
         url, method
     });
-    const [first, route, nome] = url.split('/');
+    const [first, route, remetente, destinatario] = url.split('/');
     /*console.log("route:", route);
     console.log("nome:", nome);
     request.queryString = {nome}
@@ -64,7 +101,7 @@ const handler  = (request, response) =>{
     response.writeHead(200, DEFAULT_HEADER);
 
     if(method == 'GET'){
-        var result = getMensagens(route,nome);
+        var result = getMensagens(route,remetente);
         if (result == "Nada encontrado"){
             response.writeHead(400, DEFAULT_HEADER);
         }
@@ -73,7 +110,7 @@ const handler  = (request, response) =>{
         response.end(resposta);
 
     }else if (method == 'POST'){
-        
+        postMensagens(request,response,remetente,destinatario);
     }else{
         response.end(" nenhuma solicitacao");
     }
