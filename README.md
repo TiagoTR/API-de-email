@@ -20,3 +20,5 @@
 ## Usuários padrão
     Por padrão o projeto já irá possuir algumas contas criadas, sendo(tiago,lucas,paulo,vitor)
     tambem haverá algumas mensagens já cadastradas, para uma primeira visualização
+
+    então acessando o projeto como tiago, ou lucas, já irá visualizar algumas mensagens em tela
