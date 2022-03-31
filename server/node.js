@@ -11,11 +11,7 @@ function getMensagens(route,nome){
     var isCadastrado = false;
     console.log(route, nome);
 
-    contas.forEach( x => { //procura se a conta existe
-        if(x.nome == nome){
-            isCadastrado = true;
-        }
-    })
+    
 
     /*if( isCadastrado == false){
         return "Usuário não cadastrado"; 
@@ -78,18 +74,7 @@ function postMensagens(req,res,route,remetente,destinatario){
         cont = cont + 1;
     });
 
-    var destinatarioExist = false; 
-    contas.forEach( x => {
-        if(x.nome == destinatario){
-            destinatarioExist = true;
-        }
-    }) //checando se o destinatário existe
-
-    if( destinatarioExist){
-        collectRequestData(req, res, remetente, destinatario, cont+1); //chamando a função de coleta do body
-    }else{
-        res.end("destinaratio ou remetente nao existe"); 
-    }
+    collectRequestData(req, res, remetente, destinatario, cont+1); //chamando a função de coleta do body
 
 }
 
