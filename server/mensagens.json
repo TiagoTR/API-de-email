@@ -12,12 +12,5 @@
     "destinatario": "tiago",
     "assunto": "Vôlei",
     "corpo": "Bora!"
-  },
-  {
-    "id": 3,
-    "remetente": "tiago",
-    "destinatario": "lucas",
-    "assunto": "praia",
-    "corpo": "vamo na praia?"
   }
 ]
