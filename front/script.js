@@ -134,7 +134,7 @@ function exibirMensagemUnica(id){
                 <h2>de: ${x.remetente}</h2>
                 <h2>para: ${x.destinatario}</h2>
                 <div class="botoes">
-                    <button id="Responder">Responder</button>
+                    <button id="Responder" onClick="criarRespodeMensagem(${id})">Responder</button>
                     <button id="Encaminhar" onClick="criarEncaminhaMensagem(${id})">Encaminhar</button>
                     <button id="Apagar" onClick="deletarMensagem(${id})">Apagar</button>
                 </div>
@@ -316,6 +316,78 @@ async function encaminharMensagem(id){
         if(x.id == id){
             assunto = x.assunto;
             corpo = x.corpo;
+        }
+    });
+
+    var mensagem = {
+        newId,
+        remetente,
+        destinatario,
+        assunto,
+        corpo
+    }
+
+    axios.post(`http://localhost:3333/enviar/${remetente}/${destinatario}`,{
+        "id": newId,
+	    "remetente": remetente,
+	    "destinatario": destinatario,
+	    "assunto": assunto,
+	    "corpo": corpo
+    });
+
+    
+    console.log(mensagem);
+}
+
+async function criarRespodeMensagem(id){
+
+    let div = document.createElement("div");
+    div.setAttribute("id","modal-nova-mensagem");
+
+    div.style.display = "flex";
+
+    div.innerHTML = `
+        <h1>Responder Mensagem</h1>
+        <form id="formulario-1" ">
+            <textarea type="text" id="campo2-f1" placeholder="Sua mensagem aqui"></textarea>
+        </form>
+        <button 
+            id="cancelar-f1"
+            onclick="fecharcriarMensagem()"
+        >
+        Cancelar
+        </button>
+        <button 
+            id="enviar-f1"
+            onClick="responderMensagem(${id})"
+        >
+            Enviar
+        </button>
+    `;
+
+    document.getElementById("body").appendChild(div);
+}
+
+async function responderMensagem(id){
+    result = await axios.get(`http://localhost:3333/mensagens`).then(
+        response =>  result = response.data
+    );
+   
+    var cont = 0;
+    result.forEach( x => {
+        cont = cont + 1;
+    });
+
+    let newId =  cont + 1;
+    let remetente = nome;
+    let destinatario = "";
+    let assunto = "" ;
+    let corpo =  document.getElementById("campo2-f1").value;
+
+    result.forEach( x => {
+        if(x.id == id){
+            destinatario = x.remetente;
+            assunto = x.assunto;
         }
     });
 
