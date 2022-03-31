@@ -88,7 +88,7 @@ async function loadMensagensEnviadas(){
         response =>  result = response.data
     );
     
-    showResultsRecebidos(result);   
+    showResultsEnviados(result);   
 }
 
 
@@ -135,6 +135,74 @@ function exibirMensagemUnica(id){
                 <h2>para: ${x.destinatario}</h2>
                 <div class="botoes">
                     <button id="Responder" onClick="criarRespodeMensagem(${id})">Responder</button>
+                    <button id="Encaminhar" onClick="criarEncaminhaMensagem(${id})">Encaminhar</button>
+                    <button id="Apagar" onClick="deletarMensagem(${id})">Apagar</button>
+                </div>
+            `;
+
+
+            let div = document.createElement("div");
+            div.setAttribute("class","dados-mensagem");
+
+            let h1 = document.createElement("h1");
+            h1.innerText = "assunto: " + x.assunto;
+
+            let hr = document.createElement("hr");
+
+            let p = document.createElement("p");
+            p.innerText = x.corpo;
+
+            div.appendChild(h1);
+            div.appendChild(hr);
+            div.appendChild(p);
+
+            document.getElementById('mensagem-aberta').appendChild(div);
+        }
+
+    })
+}
+
+function showResultsEnviados (resultado) {
+
+    let i = 0;
+
+    document.getElementById('mensagens-aqui').innerHTML = ``;
+    
+    
+    for(i = 0; i< resultado.length; i++){
+        console.log(resultado[i].assunto);
+        console.log(resultado[i].corpo);
+
+
+        let div = document.createElement("div");
+        div.setAttribute("class","mensagem");
+        div.setAttribute("onClick",`exibirMensagemUnicaEnviados(${resultado[i].id})`);
+        
+        let h2 = document.createElement("h2");
+        h2.innerText = resultado[i].remetente;
+
+        let span = document.createElement("span");
+        span.innerText = resultado[i].assunto;
+
+        div.appendChild(h2);
+        div.appendChild(span);
+
+        document.getElementById('mensagens-aqui').appendChild(div);
+        
+        
+    }
+}
+
+function exibirMensagemUnicaEnviados(id){
+    document.getElementById('mensagem-aberta').innerHTML = ``;
+
+    result.forEach( x => {
+        if(x.id == id){
+
+            document.getElementById('remente-mensagem').innerHTML = `
+                <h2>de: ${x.remetente}</h2>
+                <h2>para: ${x.destinatario}</h2>
+                <div class="botoes">
                     <button id="Encaminhar" onClick="criarEncaminhaMensagem(${id})">Encaminhar</button>
                     <button id="Apagar" onClick="deletarMensagem(${id})">Apagar</button>
                 </div>

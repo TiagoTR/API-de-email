@@ -19,12 +19,5 @@
     "destinatario": "lucas",
     "assunto": "Vôlei",
     "corpo": "beleza, pois eu passo ai as 16h."
-  },
-  {
-    "id": 4,
-    "remetente": "tiago",
-    "destinatario": "tiago",
-    "assunto": "Vôlei",
-    "corpo": "tudo certo"
   }
 ]
