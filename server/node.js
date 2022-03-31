@@ -11,7 +11,7 @@ function getMensagens(route,nome){
     var isCadastrado = false;
     console.log(route, nome);
 
-    contas.forEach( x => {
+    contas.forEach( x => { //procura se a conta existe
         if(x.nome == nome){
             isCadastrado = true;
         }
@@ -51,7 +51,7 @@ function getMensagens(route,nome){
 
 function AdicionarNosArquivos(body){
     mensagens.push(body);
-    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{});
+    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{}); //função que adiciona o body recebido na request no arquivo mensagens.json
 }
 
 async function collectRequestData(request, response,remetente,destinatario, cont) {
@@ -60,11 +60,11 @@ async function collectRequestData(request, response,remetente,destinatario, cont
 
     var contString = cont.toString();
     
-    request.on('data', chunk => {
+    request.on('data', chunk => { //recebendo o corpo da função
         body += chunk;
     });
-    request.on('end', () => {
-        AdicionarNosArquivos(JSON.parse(body));
+    request.on('end', () => { 
+        AdicionarNosArquivos(JSON.parse(body)); //adicionando os valores recebidos no arquivo JSON
         response.end(body); 
     });
 
@@ -83,12 +83,12 @@ function postMensagens(req,res,route,remetente,destinatario){
         if(x.nome == destinatario){
             destinatarioExist = true;
         }
-    })
+    }) //checando se o destinatário existe
 
     if( destinatarioExist){
-        collectRequestData(req, res, remetente, destinatario, cont+1);
+        collectRequestData(req, res, remetente, destinatario, cont+1); //chamando a função de coleta do body
     }else{
-        res.end("destinaratio ou remetente nao existe");
+        res.end("destinaratio ou remetente nao existe"); 
     }
 
 }
@@ -96,21 +96,13 @@ function postMensagens(req,res,route,remetente,destinatario){
 function deleteMensagens(route,id, response){
     var cont = 0;
     var indice = 0;
-    mensagens.forEach( x => {
-        if(x.id == id){
-            indice = cont;
-        }
-        cont = cont + 1;
-    })
 
-    console.log(indice);
-
-    mensagens = mensagens.filter((x)=>{
+    mensagens = mensagens.filter((x)=>{ //retorna pra lista de mensagens todas as mensagens menos as com o id que deseja deletar
         return x.id != id
-    })
+    }) 
 
     console.log(mensagens);
-    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{});
+    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{}); //salvando as mensagens no arquivo JSON 
     response.end("deletado");
 }
 

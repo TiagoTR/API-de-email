@@ -13,28 +13,49 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    
+    <script src="./script.js"></script>
     
 </head>
-<body>
+<body id="body">
    
     <header id="header-projeto">
         <img src="./images/icons/logo.svg" alt="icon"/>
     </header>
    
-    <div id="dados-input">
-        <div class="escolha-foto">
-            <div class="round-perfil">
-
+    <div id="mensagens">
+        <div class="left">
+            <div class="title">
+                <button id="enviadas">Enviadas</button>
+                <button id="recebidas">Recebidas</button>
+            </div> 
+            <div class="lista-mensagens">
+                <div class="mensagem">
+                    <h2>nome</h2>
+                    <span>bora la?</span>
+                </div>
             </div>
         </div>
-    
-        <label>Nome</label>
-        <input placeholder="Ex: Tiago"/>
-        <a href="./email.html"><button>Entrar</button></a>
-    
-       
+        <div class="right">
+            <div class="title">
+                <h2>nome</h2>
+                <div class="botoes">
+                    <button id="enviadas">Responder</button>
+                    <button id="recebidas">Encaminhar</button>
+                    <button id="recebidas">Apagar</button>
+                </div>
+                
+            </div>
+            <div id="mensagem-aberta">
+                <div class="dados-mensagem">
+                    <h1>Assunto: </h1>
+                    <hr/>
+                    <p>Bora la mano </p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    
 
 </body>
 </html>
