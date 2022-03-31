@@ -64,8 +64,6 @@ async function collectRequestData(request, response,remetente,destinatario, cont
     request.on('data', chunk => {
         body += chunk;
     });
-
-
     request.on('end', () => {
         AdicionarNosArquivos(JSON.parse(body));
         response.end(body); 
@@ -74,14 +72,25 @@ async function collectRequestData(request, response,remetente,destinatario, cont
 }
 
 
-function postMensagens(req,res,remetente,destinatario){
+function postMensagens(req,res,route,remetente,destinatario){
 
     var cont = 0;
     mensagens.forEach( x => {
         cont = cont + 1;
     });
-   
-    collectRequestData(req, res, remetente, destinatario, cont+1);
+
+    var destinatarioExist = false; 
+    contas.forEach( x => {
+        if(x.nome == destinatario){
+            destinatarioExist = true;
+        }
+    })
+
+    if( destinatarioExist){
+        collectRequestData(req, res, remetente, destinatario, cont+1);
+    }else{
+        res.end("destinaratio ou remetente nao existe");
+    }
 
   }
 
@@ -110,7 +119,7 @@ const handler  = (request, response) =>{
         response.end(resposta);
 
     }else if (method == 'POST'){
-        postMensagens(request,response,remetente,destinatario);
+        postMensagens(request,response,route,remetente,destinatario);
     }else{
         response.end(" nenhuma solicitacao");
     }
