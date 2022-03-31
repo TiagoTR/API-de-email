@@ -107,6 +107,10 @@ function deleteMensagens(route,id, response){
 }
 
 const handler  = (request, response) =>{
+
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Methods', '*');
+
     const {url, method} = request ;
     console.log({
         url, method
@@ -120,6 +124,7 @@ const handler  = (request, response) =>{
     */
 
     response.writeHead(200, DEFAULT_HEADER);
+    
 
     if(method == 'GET'){
         var result = getMensagens(route,remetente);

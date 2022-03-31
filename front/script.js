@@ -1,4 +1,5 @@
 var nome = ""; 
+var result = [];
 window.onload=function(){
     var form = document.getElementById('formulario');
     var campo = document.getElementById('campo');
@@ -19,29 +20,40 @@ window.onload=function(){
 }
 
 
+function showFormulario1 (id) {
+    let modal = document.getElementById(id);
+
+    modal.style.display = "flex";
+}
+
+function noShowFormulario1 (id){
+    let modal = document.getElementById(id);
+
+    modal.style.display = "none";
+}
+
+
 function noShowLogin (nome) {
 
     document.getElementById("body").innerHTML = `
         <header id="header-projeto">
             <img src="./images/icons/logo.svg" alt="icon"/>
             <h2>${nome}</h2>
+            <button onclick="criarMensagem()">nova mensagem</button>
         </header>
 
         <div id="mensagens">
             <div class="left">
                 <div class="title">
-                    <button id="enviadas">Enviadas</button>
-                    <button id="recebidas">Recebidas</button>
+                    <button id="enviadas" onClick="loadMensagensEnviadas()">Enviadas</button>
+                    <button id="recebidas" onClick="loadMensagens()">Recebidas</button>
                 </div> 
-                <div class="lista-mensagens">
-                    <div class="mensagem">
-                        <h2>nome</h2>
-                        <span>bora la?</span>
-                    </div>
+                <div class="lista-mensagens" id="mensagens-aqui">
+    
                 </div>
             </div>
             <div class="right">
-                <div class="title">
+                <div class="title" id="remente-mensagem">
                     <h2>nome</h2>
                     <div class="botoes">
                         <button id="enviadas">Responder</button>
@@ -54,10 +66,201 @@ function noShowLogin (nome) {
                     <div class="dados-mensagem">
                         <h1>Assunto: </h1>
                         <hr/>
-                        <p>Bora la mano </p>
+                        <p>mensagem... </p>
                     </div>
                 </div>
             </div>
         </div>
     `
+}
+
+
+async function loadMensagens(){
+    result = await axios.get(`http://localhost:3333/recebidas/${nome}`).then(
+        response =>  result = response.data
+    );
+    
+    showResultsRecebidos(result);   
+}
+
+async function loadMensagensEnviadas(){
+    result = await axios.get(`http://localhost:3333/enviadas/${nome}`).then(
+        response =>  result = response.data
+    );
+    
+    showResultsRecebidos(result);   
+}
+
+
+function showResultsRecebidos (resultado) {
+
+    let i = 0;
+
+    document.getElementById('mensagens-aqui').innerHTML = ``;
+    
+    
+    for(i = 0; i< resultado.length; i++){
+        console.log(resultado[i].assunto);
+        console.log(resultado[i].corpo);
+
+
+        let div = document.createElement("div");
+        div.setAttribute("class","mensagem");
+        div.setAttribute("onClick",`exibirMensagemUnica(${resultado[i].id})`);
+        
+        let h2 = document.createElement("h2");
+        h2.innerText = resultado[i].remetente;
+
+        let span = document.createElement("span");
+        span.innerText = resultado[i].assunto;
+
+        div.appendChild(h2);
+        div.appendChild(span);
+
+        document.getElementById('mensagens-aqui').appendChild(div);
+        
+        
+    }
+}
+
+
+function exibirMensagemUnica(id){
+    document.getElementById('mensagem-aberta').innerHTML = ``;
+
+    result.forEach( x => {
+        if(x.id == id){
+
+            document.getElementById('remente-mensagem').innerHTML = `
+                <h2>de: ${x.remetente}</h2>
+                <h2>para: ${x.destinatario}</h2>
+                <div class="botoes">
+                    <button id="Responder">Responder</button>
+                    <button id="Encaminhar">Encaminhar</button>
+                    <button id="Apagar" onClick="deletarMensagem(${id})">Apagar</button>
+                </div>
+            `;
+
+
+            let div = document.createElement("div");
+            div.setAttribute("class","dados-mensagem");
+
+            let h1 = document.createElement("h1");
+            h1.innerText = "assunto: " + x.assunto;
+
+            let hr = document.createElement("hr");
+
+            let p = document.createElement("p");
+            p.innerText = x.corpo;
+
+            div.appendChild(h1);
+            div.appendChild(hr);
+            div.appendChild(p);
+
+            document.getElementById('mensagem-aberta').appendChild(div);
+        }
+
+    })
+}
+
+async function deletarMensagem(id){
+    
+    var deletar = await axios.delete(`http://localhost:3333/deletar/${id}`).then(
+        response =>  result = response.data
+    );
+    
+    
+}
+
+
+function criarMensagem(){
+
+    let div = document.createElement("div");
+    div.setAttribute("id","modal-nova-mensagem");
+
+    div.style.display = "flex";
+
+    div.innerHTML = `
+        <h1>Nova Mensagem</h1>
+        <form id="formulario-1" ">
+            <div class="assunto">
+                <label>Destinatario:</label>
+                <input type="text" id="campo3-f1" placeholder="destinatario"></input>
+            </div>
+            <div class="assunto">
+                <label>Assunto:</label>
+                <input type="text" id="campo-f1" placeholder="assunto da mensagem"></input>
+            </div>
+            <textarea type="text" id="campo2-f1" placeholder="Sua mensagem aqui"></textarea>
+            <div class="botoes-f1">
+                <button 
+                    id="cancelar-f1"
+                    onclick="fecharcriarMensagem()"
+                >
+                Cancelar
+                </button>
+                <button 
+                    id="submit-button"
+                    onClick="enviardados()"
+                >
+                    Enviar
+                </button>
+            </div>
+        </form>
+        <button 
+            id="cancelar-f1"
+            onclick="fecharcriarMensagem()"
+        >
+        Cancelar
+        </button>
+        <button 
+            onClick="enviardados()"
+        >
+            Enviar
+        </button>
+    `;
+
+    document.getElementById("body").appendChild(div);
+    
+
+}
+
+function fecharcriarMensagem(){
+    var div = document.getElementById("modal-nova-mensagem");
+    div.innerHTML = `
+    
+    `;
+
+    document.getElementById("body").removeChild(div);
+
+}
+
+
+async function enviardados(){
+    result = await axios.get(`http://localhost:3333/mensagens`).then(
+        response =>  result = response.data
+    );
+
+    var cont = 0;
+    result.forEach( x => {
+        cont = cont + 1;
+    });
+
+    let id =  cont + 1;
+    let remetente = nome;
+    let destinatario = document.getElementById("campo3-f1").value;
+    let assunto = document.getElementById("campo-f1").value;
+    let corpo = document.getElementById("campo2-f1").value;
+
+    var mensagem = {
+        id,
+        remetente,
+        destinatario,
+        assunto,
+        corpo
+    }
+
+    
+
+    console.log(mensagem);
+
 }
