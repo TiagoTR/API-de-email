@@ -15,10 +15,3 @@
     Acesse o arquivo front 
     dê duplo clique no arquivo: 'index.html'
     ou clique com o botão direito e abra com seu navegador de preferência
-
-
-## Usuários padrão
-    Por padrão o projeto já irá possuir algumas contas criadas, sendo(tiago,lucas,paulo,vitor)
-    tambem haverá algumas mensagens já cadastradas, para uma primeira visualização
-
-    então acessando o projeto como tiago, ou lucas, já irá visualizar algumas mensagens em tela

@@ -1,50 +1,134 @@
 var http = require('http');
 const port = 3333;
+const DEFAULT_HEADER = { 'Content-Type': 'application/json'}
 const fs = require('fs');
 var mensagens = require('./mensagens.json');
 var contas = require('./contas.json');
 const { parse } = require('querystring');
-const url = require('url');
 
-function getMensagens(req_url){
-    console.log(req_url);
+
+function getMensagens(route,nome){
+    var isCadastrado = false;
+    console.log(route, nome);
+
     
-    var lista = [];
-    mensagens.forEach( x => {
-        console.log(x);
-        if("/"+ x.destinatario == req_url){
+
+    /*if( isCadastrado == false){
+        return "Usuário não cadastrado"; 
+    }*/
+
+    if(route == 'mensagens'){//retorna todas as mensagens 
+        return mensagens;
+    }else if(route == 'enviadas'){//retorna as mensagens enviadas para uma pessoa
+        var lista = [];
+        mensagens.forEach( x => {
             console.log(x);
-            lista.push(x);
-        }
-    })
-    
-    return lista;
-}
-
-function postMensangens(req_url){
-    
-}
-
-
-const server = http.createServer((req, res) => {
-    
-    var categoria = req.url;
-
-    
-    if(req.method == 'GET'){
-        var result = getMensagens(req.url);
-        var resposta = JSON.stringify(result);
-        res.end(resposta);
-    }else if (req.method == 'POST'){
-        postMensangens(req.url,);
+            if( x.remetente == nome){
+                console.log(x);
+                lista.push(x);
+            }
+        })
+        return lista;
+    }else if( route == 'recebidas'){ //retorna as mensagens recebidas por uma pessoa
+        var lista = [];
+        mensagens.forEach( x => {
+            console.log(x);
+            if( x.destinatario == nome){
+                console.log(x);
+                lista.push(x);
+            }
+        })
+        return lista;
     }else{
-        res.end(req.vody + " " +req.url + " nenhuma solicitacao");
+        return "Nada encontrado"; //caso informe uma rota inválida
     }
 
-});
+}
 
-server.listen(port, ()=>{
-    console.log("servidor rodando");
-    console.log("porta 3333");
-    console.log("Clique no index.html para executar o front");
-})
+function AdicionarNosArquivos(body){
+    mensagens.push(body);
+    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{}); //função que adiciona o body recebido na request no arquivo mensagens.json
+}
+
+async function collectRequestData(request, response,remetente,destinatario, cont) {
+
+    let body = '';
+
+    var contString = cont.toString();
+    
+    request.on('data', chunk => { //recebendo o corpo da função
+        body += chunk;
+    });
+    request.on('end', () => { 
+        AdicionarNosArquivos(JSON.parse(body)); //adicionando os valores recebidos no arquivo JSON
+        response.end(body); 
+    });
+
+}
+
+
+function postMensagens(req,res,route,remetente,destinatario){
+
+    var cont = 0;
+    mensagens.forEach( x => {
+        cont = cont + 1;
+    });
+
+    collectRequestData(req, res, remetente, destinatario, cont+1); //chamando a função de coleta do body
+
+}
+
+function deleteMensagens(route,id, response){
+    var cont = 0;
+    var indice = 0;
+
+    mensagens = mensagens.filter((x)=>{ //retorna pra lista de mensagens todas as mensagens menos as com o id que deseja deletar
+        return x.id != id
+    }) 
+
+    console.log(mensagens);
+    fs.writeFile('./mensagens.json',JSON.stringify(mensagens,null,2), ()=>{}); //salvando as mensagens no arquivo JSON 
+    response.end("deletado");
+}
+
+const handler  = (request, response) =>{
+
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Methods', '*');
+    response.setHeader('Access-Control-Allow-Headers', '*');
+
+    const {url, method} = request ;
+    console.log({
+        url, method
+    });
+    const [first, route, remetente, destinatario] = url.split('/');
+    /*console.log("route:", route);
+    console.log("nome:", nome);
+    request.queryString = {nome}
+
+    console.log(request.queryString);
+    */
+
+    response.writeHead(200, DEFAULT_HEADER);
+    
+
+    if(method == 'GET'){
+        var result = getMensagens(route,remetente);
+        if (result == "Nada encontrado"){
+            response.writeHead(400, DEFAULT_HEADER);
+        }
+
+        var resposta = JSON.stringify(result);
+        response.end(resposta);
+
+    }else if (method == 'POST'){
+        postMensagens(request,response,route,remetente,destinatario);
+    }else if (method == 'DELETE'){
+        deleteMensagens(route,remetente, response);
+    }else{
+        response.end(" nenhuma solicitacao");
+    }
+}
+
+http.createServer(handler)
+    .listen(port, ()=> console.log('server running at', port))

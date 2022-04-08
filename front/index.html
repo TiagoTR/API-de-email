@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BitInforma</title>
+    <title>API MENSAGENS</title>
     <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    
+    <script src="./script.js"></script>
     
 </head>
-<body>
+<body id="body">
    
     <header id="header-projeto">
         <img src="./images/icons/logo.svg" alt="icon"/>
+        
     </header>
    
     <div id="dados-input">
@@ -28,13 +29,19 @@
 
             </div>
         </div>
-    
-        <label>Nome</label>
-        <input placeholder="Ex: Tiago"/>
-        <a href="./email.html"><button>Entrar</button></a>
-    
+
+        <label>Nome: </label> 
+        <form id="formulario">
+            <input type="text" id="campo" placeholder="Ex: Tiago"></input>
+            <button type="submit"  id="submit-button"> 
+               Entrar
+            </button>
+        </form>
        
     </div>
+
+    
+    
 
 </body>
 </html>
